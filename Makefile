@@ -1,5 +1,5 @@
 HOMEPATH=$(PWD)
-MODLOC=/usr2/postdoc/piskulic/privatemodules
+MODLOC=/home/zpiskulich_sta/privatemodules
 
 wham_derivative:
 	@echo "Making wham derivative code"
