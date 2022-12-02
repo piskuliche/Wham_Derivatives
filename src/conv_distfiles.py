@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os, shutil
 import numpy as np
 
@@ -25,9 +26,11 @@ def Conv_Files(Iargs):
             t, xvals = np.genfromtxt("%d/%s" % (i,Iargs.subfile), usecols=(0,1), unpack=True)
         except:
             raise OSError("Error: Couldn't find subfile")
-        newx = xvals[Iargs.start:Iargs.stop:Iargs.skip]
+        new_x = xvals[Iargs.start:Iargs.stop:Iargs.skip]
+        t = t[Iargs.start:Iargs.stop:Iargs.skip]
         if Iargs.xunits == 'bohr':
             new_x = new_x*bohr_to_angstrom
+        print(np.shape(t),np.shape(new_x))
         np.savetxt("%d/final.colvars"%i, np.c_[t,new_x])
     
 
