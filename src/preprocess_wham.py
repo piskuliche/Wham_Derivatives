@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import argparse, os, pickle
+import numpy as np
 
 def Main(Iargs):
     """Does the pre-processing.
@@ -12,7 +14,7 @@ def Main(Iargs):
     """
 
     Write_WHAM_Files(Iargs)
-    
+
     return
 
 def Write_WHAM_Files(Iargs):
@@ -24,7 +26,7 @@ def Write_WHAM_Files(Iargs):
     Args:
         Iargs (argparse): Input arguments
     """
-    if not os.path.exits("wham_pckl"):
+    if not os.path.exists("wham_pckl"):
         os.makedirs('wham_pckl')
     
     nwindows=0
@@ -53,11 +55,12 @@ def Write_WHAM_Files(Iargs):
         pickle.dump(data,open('wham_pckl/window_%d.pckl'%window,'wb'))
         if Iargs.deriv == 1:
             for key in etypes:
-                en[key]=np.genfromtxt((str(window)+"/"+key+"_init.out",usecols=0))
+                en[key]=np.genfromtxt(str(window)+"/"+key+"_init.out",usecols=0)
             pickle.dump(en,open("wham_pckl/ener_%d.pckl"%window,'wb'))
 
 
 if __name__ == "__main__":
+
     parser=argparse.ArgumentParser()
     parser.add_argument('-subfile', default="lif.distance", type=str,
                          help="File name for colvar in subdirectory")

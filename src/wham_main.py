@@ -1,6 +1,20 @@
 #!/usr/bin/env python
+import numpy as np
+import argparse
+from wham_class import Wham
 
 def Main(Iargs):
+    nwindows=0
+    xc, k=[], []
+    try:
+        xc,k=np.genfromtxt(Iargs.metafile,usecols=(1,2),unpack=True)
+        nwindows = len(xc)
+    except:
+        exit("Error: Trouble grabbing windows from metafile")
+
+    whammed = Wham(xc, k[0], Iargs.rlow, Iargs.rhigh, nwindows, Iargs.nbins)
+    whammed.Do_WHAM()
+    whammed.Plot_PMF()
     return
 
 if __name__ == "__main__":
@@ -9,18 +23,14 @@ if __name__ == "__main__":
                          help='Low cutoff in angstroms')
     parser.add_argument('-rhigh', default=8,type=float,
                          help='High cutoff in angstroms')
-    parser.add_argument('-nbin', default=100, type=int,
+    parser.add_argument('-nbins', default=100, type=int,
                          help='Histogram bins')
-    parser.add_argument('-subfile', default="lif.distance", type=str,
-                         help="File name for colvar in subdirectory")
-    parser.add_argument('-subcol',default=1, type=int, 
-                         help="Column of subfile for colvar")
-    parser.add_argument('-skip', default=10000, type=int,
-                         help="How many elements to skip")
     parser.add_argument('-deriv',default=0, type=int,
                          help="[0] Turn off derivative calculation (default) [1] Turn on derivative calculation")
     parser.add_argument('-enerfile', default="flucts.inp", type=str,
                          help="File name with energy information, default flucts.inp")
+    parser.add_argument('-metafile', default='wham_metadata.info', type=str,
+                         help='File name with directory, loc, and k info.')
     Iargs = parser.parse_args()
 
     Main(Iargs)
