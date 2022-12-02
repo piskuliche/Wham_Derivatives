@@ -27,6 +27,7 @@ class Wham:
         F (array_like): Free energy estimate shape(nwindows,)
         F_old (array_like): Old free energy estimate shape(nwindows,)
         isconverged (bool): Flag for whether converged
+        d_converged (bool): Flag for whether derivative converged
         eweight (bool): Flag for whether to do WHAM-D 
         whamcomplete (bool): Flag for whether WHAM has completed.
 
@@ -73,13 +74,17 @@ class Wham:
         self.hval = []
         self.center = []
         self.P = []
+        self.dP = []
 
         # Derived values
         self.F_old = np.zeros(self.nwindows)
         self.F = self.F_old
+        self.dF_old = np.zeros(self.nwindows)
+        self.dF = self.dF_old
 
         # Flags
         self.isconverged = False
+        self.d_converged = False
         self.eweight = eweight
         self.whamcomplete = False
 
@@ -105,6 +110,8 @@ class Wham:
 
         calc_bias = choose_bias(self.bias)
 
+        self.dhval = {} # initialize derivative histogram
+
         for window in range(self.nwindows):
             if window%10 == 0: print(window)
             data, en, den, dhist = [], {}, {}, {}
@@ -124,11 +131,13 @@ class Wham:
 
             if self.eweight == True:
                 for key in en:
+                    if key not in self.dhval: 
+                        self.dhval[key] = [] # Initialize to key if not there. 
                     en[key] = en[key]
                     den[key] = den[key]-np.average(en[key])
                     dhist[key], dbins = np.histogram(data, bins=self.nbins, range=(self.rlow,self.rhi),
                                                      density=False, weights=-den[key])
-                    dhval[key].append(dhist[key]/np.sum(hist))
+                    self.dhval[key].append(dhist[key]/np.sum(hist))
             
             # Store in the class
             self.center = (bins[:-1] + bins[1:]) / 2
@@ -140,8 +149,16 @@ class Wham:
 
         self.U = np.array(self.U)
 
-    def Do_WHAM(self,maxiter=10000,tol=1e-6):
-        """
+    def Do_WHAM(self,maxiter=10000):
+        """Function to do WHAM
+
+        This function does WHAM by repeatedly calling the Wham_Iteration function, which
+        works by updating P and F stored within the class. The function stops if the maxiter
+        parameter is reached.
+
+        Args:
+            maxiter (int): Maximum number of WHAM iterations
+
         """
         iteration = 0
         while self.isconverged == False:
@@ -149,15 +166,33 @@ class Wham:
             iteration += 1
             if iteration > maxiter:
                 exit("Error: Reached too many iterations. Increase maxiter.")
-        return
+    
+    def Do_WHAM_D(self, key, maxiter=10000):
+        """Function to do WHAM-D
+
+        This function calculates the derivative of WHAM by repeatedly calling the Wham_D_Iteration 
+        function, which works by updating dP and dF stored within the class. The function stops if
+        the maxiter parameter is reached. This must be done after Do_WHAM has completed.
+
+        Args:
+            key (string): Energy key name
+            maxiter (int): Maximum number of WHAM-D iterations
+    
+        """
+        self._Test_Convergant()
+
+        iteration = 0
+        self.d_converged = False
+        while (self.d_converged == False):
+            self.Wham_D_Iteration(key)
+            iteration += 1
+            if iteration > maxiter:
+                exit("Error: Too many iterations in derivative")
 
     def Wham_Iteration(self):
         """Does one WHAM iteration
         
-        Does a regular WHAM iteration
-
-        Args:
-            F (array_like): Free energy estimate
+        Does a regular WHAM iteration, by updating P, then F.
 
         """
         self.Update_P()
@@ -172,7 +207,23 @@ class Wham:
         if Ferr < self.tolerance:
             self.isconverged = True
 
-        return
+    
+    def Wham_D_Iteration(self, key):
+        """Does one WHAM-D iteration
+
+        Does a regular WHAM-D iteration, by updating dP, then dF.
+
+        """
+        self.Update_dP(key)
+        self.Update_dF()
+        dFerr = np.sum(np.abs(np.subtract(self.dF,self.dF_old)))
+        self.dF_old = self.dF
+
+        print("Error: %s " % dFerr)
+        print("dF: %s" % np.sum(self.dF))
+        self.d_converged = False
+        if dFerr < self.tolerance:
+            self.d_converged = True
 
     def Update_P(self):
         """Function to calculate the probability distribution
@@ -184,7 +235,7 @@ class Wham:
         Ut = self.U.T
         Fm = self.F - np.min(self.F)
 
-        numerator = np.sum(self.ni,axis=0)
+        numerator = np.sum(self.ni, axis=0)
 
         # Build Denominator
         inside_exponent = np.divide(-np.subtract(Ut, Fm), self.kbT)
@@ -205,15 +256,85 @@ class Wham:
         
         # Remove infinity
         self.F[self.F==inf] = 0.0
+
+    def Update_dP(self, key):
+        """Calculates the WHAM-D derivative of probability distribution
+
+        This function calculates the WHAM-D derivative of the probability distribution,
+        dP, as part of a self consistent solution.
+
+        Args:
+            key (str): Energy type for the iteration
+
+        """
+        Ut = self.U.T
+        Fm = self.F - np.min(self.F)
+        dHT = self.dhval[key].T
+
+        # Build Denominator
+        inside_sum = np.multiply(self.cnt, np.exp(np.divide(-np.subtract(Ut,Fm),self.kbT)))
+        denominator = np.sum(inside_sum,axis=1)
+
+        # Build Term 1
+        term1 = np.sum(np.multiply(self.cnt,dHT),axis=1)
+
+        # Build Term 2
+        exponent = np.exp(np.divide(-np.subtract(Ut,Fm),self.kbT))
+        weight_exp = np.multiply(self.cnt,exponent)
+        prefact_exp = np.multiply(weight_exp,(self.dF/self.kbT+Fm-Ut))
+        term2 = self.P*np.sum(prefact_exp,axis=1)
+
+        self.dP = (term1 - term2)/denominator
+        
+    def Update_dF(self):
+        """Calculates the WHAM-D derivative of free energy
+
+        This function calculates the WHAM-D derivative of the free energy,
+        dP, as part of a self consistent solution.
+
+        """
+
+        # Build Term 1
+        term1 = -self.kbT*self.F
+        
+        # Build Term 2
+        inside_sum = np.multiply(np.subtract(self.dP,np.multiply(self.U,self.P),
+                                 np.exp(-self.U/self.kbT)))
+        term2_num = self.kbT*np.sum(inside_sum,axis=1)
+        term2_den = np.sum(np.exp(-self.U/self.kbT)*self.P,axis=1)
+        self.dF = term1 + term2_num/term2_den
+        self.dF[self.dF==inf] = 0.0
     
+    def _Test_Convergant(self):
+        """Simple functon that tests convergence
+
+        """
+        try:
+            assert self.isconverged == True
+        except:
+            raise AssertionError("Error: WHAM-D must follow a successful WHAM calculation")
+
+
     def Calc_PMF(self):
-        pmf = -self.kbT*np.log(P)-np.min(-self.kbT*np.log(self.P))
+        """Calculates the potential of mean force
+
+        This calculates the potential of mean force from the self consistent
+        solution to WHAM, which must have converged.
+
+        """
+        self._Test_Convergant()
+        pmf = -self.kbT*np.log(self.P)-np.min(-self.kbT*np.log(self.P))
         return pmf
     
     def Plot_PMF(self):
+        """Plots PMF using matplotlib
+
+        Does a basic plot of the PMF in matplotlib
+
+        """
         import matplotlib.pyplot as plt
         plt.figure(dpi=300,figsize=(3,3))
-        plt.plot(self.xvals,self.Report_PMF())
+        plt.plot(self.xvals,self.Calc_PMF())
         plt.show()
     
 

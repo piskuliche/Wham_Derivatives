@@ -11,4 +11,6 @@ wham_derivative:
 	ln -s $(HOMEPATH)/src/preprocess_wham.py $(HOMEPATH)/bin/
 	ln -s $(HOMEPATH)/src/wham_class.py $(HOMEPATH)/bin/
 	ln -s $(HOMEPATH)/src/wham_main.py $(HOMEPATH)/bin/
+	ln -s $(HOMEPATH)/src/conv_distfiles.py $(HOMEPATH)/bin/
+	ln -s $(HOMEPATH)/src/conv_metadata.py $(HOMEPATH)/bin/
 	chmod 777 bin/*
