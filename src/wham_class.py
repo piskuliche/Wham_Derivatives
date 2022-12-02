@@ -17,7 +17,6 @@ class Wham:
         nwindows (int): Number of WHAM Windows
         nbins (int): Number of WHAM histogram bins
         xc (array_like): Location of bias centers shape(nwindows,)
-        xvals (array_like): Location of bin centers shape(nbins,)
         U (array_like): Potential energy of bias shape(nwindows,nbins)
         ni (array_like): Histogram counts shape(nwindows, nbins)
         cnt (array_like): Total histogram counts shape(nwindows,)
@@ -62,9 +61,6 @@ class Wham:
         self.xc = xc
         self.k = k
         self.bias = bias
-
-        # Derived attributes
-        self.xvals = np.linspace(self.rlow, self.rhi, self.nbins)
 
 
         # Main Arrays
@@ -133,8 +129,8 @@ class Wham:
                 for key in en:
                     if key not in self.dhval: 
                         self.dhval[key] = [] # Initialize to key if not there. 
-                    en[key] = en[key]
-                    den[key] = den[key]-np.average(en[key])
+                    den[key] = en[key]-np.average(en[key])
+                    print(np.shape(data),np.shape(den[key]))
                     dhist[key], dbins = np.histogram(data, bins=self.nbins, range=(self.rlow,self.rhi),
                                                      density=False, weights=-den[key])
                     self.dhval[key].append(dhist[key]/np.sum(hist))
@@ -315,6 +311,7 @@ class Wham:
             raise AssertionError("Error: WHAM-D must follow a successful WHAM calculation")
 
 
+
     def Calc_PMF(self):
         """Calculates the potential of mean force
 
@@ -334,7 +331,7 @@ class Wham:
         """
         import matplotlib.pyplot as plt
         plt.figure(dpi=300,figsize=(3,3))
-        plt.plot(self.xvals,self.Calc_PMF())
+        plt.plot(self.center,self.Calc_PMF())
         plt.show()
     
 

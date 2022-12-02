@@ -52,7 +52,9 @@ def Write_WHAM_Files(Iargs):
         
         data = np.genfromtxt(str(window)+"/"+Iargs.subfile,
                              usecols=Iargs.subcol,unpack=True)
+                             
         pickle.dump(data,open('wham_pckl/window_%d.pckl'%window,'wb'))
+
         if Iargs.deriv == 1:
             for key in etypes:
                 en[key]=np.genfromtxt(str(window)+"/"+key+"_init.out",usecols=0)

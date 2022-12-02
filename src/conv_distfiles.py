@@ -17,7 +17,7 @@ def Conv_Files(Iargs):
     
     nwindows = len(x)
 
-    if Iargs.xunits not in ['bohr','angstrom']:
+    if Iargs.xunits not in ['bohr', 'angstrom']:
         exit("Error: xunits must be bohr or angstrom")
 
     for i in range(nwindows):
@@ -30,8 +30,8 @@ def Conv_Files(Iargs):
         t = t[Iargs.start:Iargs.stop:Iargs.skip]
         if Iargs.xunits == 'bohr':
             new_x = new_x*bohr_to_angstrom
-        print(np.shape(t),np.shape(new_x))
-        np.savetxt("%d/final.colvars"%i, np.c_[t,new_x])
+        print(np.shape(t), np.shape(new_x))
+        np.savetxt("%d/final.colvars"%i, np.c_[t, new_x])
     
 
 

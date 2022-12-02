@@ -11,10 +11,12 @@ def Main(Iargs):
         nwindows = len(xc)
     except:
         exit("Error: Trouble grabbing windows from metafile")
-
-    whammed = Wham(xc, k[0], Iargs.rlow, Iargs.rhigh, nwindows, Iargs.nbins)
+    
+    whammed = Wham(xc, k[0], Iargs.rlow, Iargs.rhigh, nwindows, Iargs.nbins, eweight=True)
     whammed.Do_WHAM()
     whammed.Plot_PMF()
+    whammed.Do_WHAM_D()
+
     return
 
 if __name__ == "__main__":
