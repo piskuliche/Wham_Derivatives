@@ -23,8 +23,14 @@ def Write_WHAM_Files(Iargs):
     This takes files, and writes them in a very WHAM-readable format, 
     mainly by converting them to pckl files in a centralized directory.
 
+    Iargs.deriv sets whether this also reads energies (and writes those to pickle files).
+
     Args:
         Iargs (argparse): Input arguments
+    
+    Raises:
+        OSError: Input files provided were incorrect, or in the wrong format.
+
     """
     if not os.path.exists("wham_pckl"):
         os.makedirs('wham_pckl')
@@ -34,7 +40,7 @@ def Write_WHAM_Files(Iargs):
         k=np.genfromtxt(Iargs.metafile,usecols=1,unpack=True)
         nwindows = len(k)
     except:
-        exit("Error: Trouble grabbing windows from metafile")
+        raise OSError("Error: Trouble grabbing windows from metafile")
     
     etypes = []
     if Iargs.deriv == 1:
@@ -43,9 +49,10 @@ def Write_WHAM_Files(Iargs):
             print("Grabbing energies")
             print("Selected energy types:",*etypes)
         except:
-            exit("Error: Trouble grabbing energies")
+            raise OSError("Error: Trouble grabbing energies")
 
     svdata = []
+    # Loops over windows here to write pickle files
     for window in range(nwindows):
         if window%10 == 0: print(window)
         data, en = [], {}

@@ -5,6 +5,10 @@ import numpy as np
 def Conv_Files(Iargs):
     """Converts distance units for subdirectory files.
 
+    Reads in distance files in each window, converts them to real units, and then outputs
+    a final file, called final.colvars in that directory, which can then be read by the 
+    WHAM program. This is useful if working in non-traditional units systems (like cp2k's atomic units)
+
     Args:
         Iargs (argparse): Input arguments.
 

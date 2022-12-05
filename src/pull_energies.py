@@ -6,7 +6,8 @@ def Pull_LAMMPS(Iargs, n):
     """Pulls energy data from LAMMPS
 
     Pulls energy for all columns in the LAMMPS log file and writes them
-    as a file for each one.
+    as a file for each one. This intelligently parses the lammps logfile,
+    but must be a full logfile with only a single run command, otherwise breaks
 
     Args:
         n (int): Number of windows
@@ -54,6 +55,9 @@ def Pull_CP2K(Iargs, n):
     Args:
         n (int): Number of windows
 
+    Raises:
+        OSError: Trouble reading the energy file from CP2K
+
     """
     hartree_to_kcal = 627.509
     try:
@@ -61,8 +65,11 @@ def Pull_CP2K(Iargs, n):
         keys = np.genfromtxt(Iargs.enerfile, usecols=0, unpack=True, dtype=str)
     except:
         raise OSError("Error: Trouble reading %s"%Iargs.enerfile)
-    print(keys)
+
+
     data=np.genfromtxt("%d/%s"%(n, Iargs.logfile), unpack=True)
+
+    # Writes energies out. 
     for i, key in enumerate(keys):
         energy = data[cols[i]]
         if conv[i] == 1:
@@ -70,11 +77,25 @@ def Pull_CP2K(Iargs, n):
         np.savetxt("%d/%s_init.out"%(n, key), np.c_[energy])
 
 def Pull_Energies(Iargs):
+    """Function that calls right routine to pull energy data
+
+    This uses input arguments to pull the right data and files. Currently has support for either
+    lammps or cp2k. 
+
+    Args:
+        Iargs (argparse): Input arguments from argparse
+    
+    Raises:
+        OSError: Couldn't open the metadata file to grab number of windows.
+        ValueError: Wrong program was given as an input argument.
+
+    """
+
     try:
         k=np.genfromtxt(Iargs.metafile,usecols=1,unpack=True)
         nwindows = len(k)
     except:
-        exit("Error: Trouble grabbing windows from metafile")
+        raise OSError("Error: Trouble grabbing windows from metafile")
     
     nwindows = len(k)
 
@@ -92,6 +113,7 @@ def Pull_Energies(Iargs):
 
 if __name__ == "__main__":
     import argparse
+    
     parser=argparse.ArgumentParser()
     parser.add_argument('-program', default="LAMMPS", type=str,
                          help="Which program [CP2K or LAMMPS]")

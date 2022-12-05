@@ -4,6 +4,15 @@ import argparse
 from wham_class import Wham
 
 def Main(Iargs):
+    """This is an example of how these functions can be called to calculate WHAM
+
+    Args:
+        Iargs (argparse): Input arguments from argparse
+
+    Raises: 
+        OSError: Metadata file was non-existent or in wrong format.
+
+    """
     nwindows=0
     xc, k=[], []
     try:
@@ -15,9 +24,8 @@ def Main(Iargs):
     whammed = Wham(xc, k[0], Iargs.rlow, Iargs.rhigh, nwindows, Iargs.nbins, eweight=True)
     whammed.Do_WHAM()
     #whammed.Plot_PMF()
-    whammed.Do_WHAM_D("TotEng",maxiter=100000)
+    whammed.Do_WHAM_D("TotEng", maxiter=100000)
 
-    return
 
 if __name__ == "__main__":
     parser=argparse.ArgumentParser()

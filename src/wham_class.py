@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import pickle
+import pickle, warnings
 import numpy as np
 from numpy import inf, nan
 
@@ -90,7 +90,20 @@ class Wham:
         return
 
     def Build_Data(self):
+        """ This reads in data and builds histograms
+
+        This program reads in the collective variable data, and the
+        energies (if the derivative WHAM-D calculation is turned on) and then
+        it histograms the data, and generates the structures needed to run a WHAM (and WHAM-D)
+        calculation.
+
+        Raises:
+            OSError: Something went wrong with the pickle files read in.
+            ValueError: Wrong input for the bias potential was chosen. 
+
+        """
         def choose_bias(bias):
+            """Sets the bias used for the collective variable"""
             if bias == 1:
                 def calc_bias(x,k):
                     # This function calculates the bias potential value 
@@ -102,12 +115,13 @@ class Wham:
                     return 0.5*k*x**2.
                 return calc_bias
             else:
-                exit("improper bias")
+                raise ValueError("Error: Improper bias option selected.")
 
         calc_bias = choose_bias(self.bias)
 
         self.dhval = {} # initialize derivative histogram
-
+        
+        # Loop over windows
         for window in range(self.nwindows):
             if window%10 == 0: print(window)
             data, en, den, dhist = [], {}, {}, {}
@@ -123,8 +137,10 @@ class Wham:
                 except:
                     raise OSError("Error: Need to generate energy pckl first")
             
+            # Histogram the data over the selected range. Do not normalize
             hist, bins = np.histogram(data, bins=self.nbins, range=(self.rlow,self.rhi), density=False)
 
+            # Do derivative weighting, if necessary
             if self.eweight == True:
                 for key in en:
                     if key not in self.dhval: 
@@ -142,6 +158,7 @@ class Wham:
             self.dx = np.subtract(self.xc[window], self.center)
             self.U.append(calc_bias(self.dx,self.k))
 
+        # Make U a numpy array, so that it is transposable (Same for dhval)
         self.U = np.array(self.U)
         if self.eweight == True:
             for key in self.dhval:
@@ -157,13 +174,17 @@ class Wham:
         Args:
             maxiter (int): Maximum number of WHAM iterations
 
+        Raises:
+            RuntimeWarning: WHAM didn't converge within maxiter steps to specified tolerance.
+
         """
         iteration = 0
         while self.isconverged == False:
             self.Wham_Iteration()
             iteration += 1
             if iteration > maxiter:
-                exit("Error: Reached too many iterations. Increase maxiter.")
+                warnings.warn("Warning: Reached too many iterations. Increase maxiter.",RuntimeWarning)
+                break
     
     def Do_WHAM_D(self, key, maxiter=10000):
         """Function to do WHAM-D
@@ -175,8 +196,14 @@ class Wham:
         Args:
             key (string): Energy key name
             maxiter (int): Maximum number of WHAM-D iterations
+
+        Raises:
+            RuntimeError: WHAM-D didn't converge within maxiter steps to specified tolerance.
+            AssertionError: WHAM wasn't converged prior to calculating the derivative.
     
         """
+        
+        # Raises the AssertionError if WHAM wasn't converged first.
         self._Test_Convergant()
 
         iteration = 0
@@ -185,7 +212,8 @@ class Wham:
             self.Wham_D_Iteration(key)
             iteration += 1
             if iteration > maxiter:
-                exit("Error: Too many iterations in derivative")
+                warnings.warn("Warning: Too many iterations in derivative", RuntimeWarning)
+                break
 
     def Wham_Iteration(self):
         """Does one WHAM iteration
@@ -197,11 +225,11 @@ class Wham:
         self.Update_F()
 
         # Calculate the error
-        Ferr = np.sum(np.abs(np.subtract(self.F,self.F_old)))
+        Ferr = np.sum(np.abs(np.subtract(self.F, self.F_old)))
         self.F_old = self.F
         print("Error: %s" % Ferr)
         
-        #Check if converged
+        # Check if converged
         if Ferr < self.tolerance:
             self.isconverged = True
 
@@ -212,13 +240,19 @@ class Wham:
         Does a regular WHAM-D iteration, by updating dP, then dF.
 
         """
+
+        # Update the derivatives
         self.Update_dP(key)
         self.Update_dF()
+
+        # Calculate the Error
         dFerr = np.sum(np.abs(np.subtract(self.dF,self.dF_old)))
         self.dF_old = self.dF
 
         print("Error: %s " % dFerr)
         print("dF: %s" % np.sum(self.dF))
+
+        # Test Convergence
         self.d_converged = False
         if dFerr < self.tolerance:
             self.d_converged = True
@@ -311,6 +345,9 @@ class Wham:
     def _Test_Convergant(self):
         """Simple functon that tests convergence
 
+        Raises:
+            AssertionError: The calculation is not converged.
+
         """
         try:
             assert self.isconverged == True
@@ -324,6 +361,9 @@ class Wham:
 
         This calculates the potential of mean force from the self consistent
         solution to WHAM, which must have converged.
+
+        Raises:
+            AssertionError: Calculation wasn't converged before trying to plot
 
         """
         self._Test_Convergant()
@@ -339,6 +379,8 @@ class Wham:
         import matplotlib.pyplot as plt
         plt.figure(dpi=300,figsize=(3,3))
         plt.plot(self.center,self.Calc_PMF())
+        plt.xlabel("r (angstroms)")
+        plt.ylabel("P(r)")
         plt.show()
     
 

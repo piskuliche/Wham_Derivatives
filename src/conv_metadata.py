@@ -4,14 +4,26 @@ import os, shutil
 import numpy as np
 
 def Conv(Iargs):
+    """Converts the Grossfield WHAM-code-like metadata file units
+
+    This converts units for the Grossfield WHAM-code metafile. This metafile is in the format
+    of one line per window, each line having filename, bin location, and k.
+
+    Args:
+        Iargs (argparse): Input arguments from argparse
+    
+    Raises:
+        ValueError: Incorrect input arguments were provided
+
+    """
     bohr_to_angstrom = 0.529177
     hartree_to_kcal = 627.509
     
     col, x, k = Read_Meta()
     if Iargs.xunits not in ['bohr','angstrom']:
-        exit("Error: xunits must be bohr or angstrom")
+        raise ValueError("Error: xunits must be bohr or angstrom")
     if Iargs.eunits not in ['hartree, kcal']:
-        exit("Error: units must be in hartree or kcal")
+        raise ValueError("Error: units must be in hartree or kcal")
     
     if Iargs.override_k != 0.0:
         k = [Iargs.override_k]*len(x)
