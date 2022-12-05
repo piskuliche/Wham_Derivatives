@@ -38,9 +38,10 @@ def Conv_Files(Iargs):
 if __name__ == "__main__":
     import argparse
     parser=argparse.ArgumentParser()
-    parser.add_argument('-xunits', default='bohr',type=str,
+    # Defaults are to not modify the distances.
+    parser.add_argument('-xunits', default='angstrom',type=str,
                          help='Distance units type [bohr, angstrom]')
-    parser.add_argument('-subfile', default='hartree',type=str,
+    parser.add_argument('-subfile', default='kcal',type=str,
                          help='Energy units type [hartree, kcal]')
     parser.add_argument('-subcol', default=1,type=int,
                          help='Column from which file to read.')                     

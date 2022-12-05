@@ -64,7 +64,7 @@ def Write_WHAM_Files(Iargs):
 if __name__ == "__main__":
 
     parser=argparse.ArgumentParser()
-    parser.add_argument('-subfile', default="lif.distance", type=str,
+    parser.add_argument('-subfile', default="final.colvars", type=str,
                          help="File name for colvar in subdirectory")
     parser.add_argument('-subcol',default=1, type=int, 
                          help="Column of subfile for colvar")
