@@ -23,7 +23,7 @@ def Main(Iargs):
     
     whammed = Wham(xc, k[0], Iargs.rlow, Iargs.rhigh, nwindows, Iargs.nbins, eweight=True)
     whammed.Do_WHAM()
-    #whammed.Plot_PMF()
+    whammed.Plot_PMF()
     whammed.Do_WHAM_D("TotEng", maxiter=100000)
 
 
