@@ -1,0 +1,722 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>wham_derivatives package &#8212; wham_derivatives v0.9dev documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="wham_derivatives" href="modules.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="wham_derivatives"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">wham_derivatives v0.9dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">wham_derivatives</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">wham_derivatives package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="wham-derivatives-package">
+<h1>wham_derivatives package<a class="headerlink" href="#wham-derivatives-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-wham_derivatives.conv_distfiles">
+<span id="wham-derivatives-conv-distfiles-module"></span><h2>wham_derivatives.conv_distfiles module<a class="headerlink" href="#module-wham_derivatives.conv_distfiles" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.conv_distfiles.Conv_Files">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.conv_distfiles.</span></span><span class="sig-name descname"><span class="pre">Conv_Files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.conv_distfiles.Conv_Files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts distance units for subdirectory files.</p>
+<p>Reads in distance files in each window, converts them to real units, and then outputs
+a final file, called final.colvars in that directory, which can then be read by the
+WHAM program. This is useful if working in non-traditional units systems (like cp2k’s atomic units)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Iargs</strong> (<em>argparse</em>) – Input arguments.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-wham_derivatives.conv_metadata">
+<span id="wham-derivatives-conv-metadata-module"></span><h2>wham_derivatives.conv_metadata module<a class="headerlink" href="#module-wham_derivatives.conv_metadata" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.conv_metadata.Conv">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.conv_metadata.</span></span><span class="sig-name descname"><span class="pre">Conv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.conv_metadata.Conv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the Grossfield WHAM-code-like metadata file units</p>
+<p>This converts units for the Grossfield WHAM-code metafile. This metafile is in the format
+of one line per window, each line having filename, bin location, and k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Iargs</strong> (<em>argparse</em>) – Input arguments from argparse</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Incorrect input arguments were provided</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.conv_metadata.Read_Meta">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.conv_metadata.</span></span><span class="sig-name descname"><span class="pre">Read_Meta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.conv_metadata.Read_Meta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-wham_derivatives.preprocess_wham">
+<span id="wham-derivatives-preprocess-wham-module"></span><h2>wham_derivatives.preprocess_wham module<a class="headerlink" href="#module-wham_derivatives.preprocess_wham" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.preprocess_wham.Main">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.preprocess_wham.</span></span><span class="sig-name descname"><span class="pre">Main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.preprocess_wham.Main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the pre-processing.</p>
+<p>This does basic preprocessing of files. All unit conversions, skippage,
+etc needs to be done ahead of time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Iargs</strong> (<em>argparse</em>) – Input arguments</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.preprocess_wham.Write_WHAM_Files">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.preprocess_wham.</span></span><span class="sig-name descname"><span class="pre">Write_WHAM_Files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.preprocess_wham.Write_WHAM_Files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes files in a very simple, WHAM-readable format.</p>
+<p>This takes files, and writes them in a very WHAM-readable format,
+mainly by converting them to pckl files in a centralized directory.</p>
+<p>Iargs.deriv sets whether this also reads energies (and writes those to pickle files).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Iargs</strong> (<em>argparse</em>) – Input arguments</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>OSError</strong> – Input files provided were incorrect, or in the wrong format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-wham_derivatives.pull_energies">
+<span id="wham-derivatives-pull-energies-module"></span><h2>wham_derivatives.pull_energies module<a class="headerlink" href="#module-wham_derivatives.pull_energies" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.pull_energies.Pull_CP2K">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.pull_energies.</span></span><span class="sig-name descname"><span class="pre">Pull_CP2K</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.pull_energies.Pull_CP2K" title="Permalink to this definition">¶</a></dt>
+<dd><p>File for pulling energies from CP2K</p>
+<p>CP2K Energies are pulled using numpy. The data is pulled using numpy,
+and is only pulled for columns from enerfile. Also has the option
+to do unit conversions as needed when saving the energies to their
+files. To do so, use third column of flucts.inp file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Number of windows</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>OSError</strong> – Trouble reading the energy file from CP2K</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.pull_energies.Pull_Energies">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.pull_energies.</span></span><span class="sig-name descname"><span class="pre">Pull_Energies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.pull_energies.Pull_Energies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that calls right routine to pull energy data</p>
+<p>This uses input arguments to pull the right data and files. Currently has support for either
+lammps or cp2k.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Iargs</strong> (<em>argparse</em>) – Input arguments from argparse</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>OSError</strong> – Couldn’t open the metadata file to grab number of windows.</p></li>
+<li><p><strong>ValueError</strong> – Wrong program was given as an input argument.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.pull_energies.Pull_LAMMPS">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.pull_energies.</span></span><span class="sig-name descname"><span class="pre">Pull_LAMMPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.pull_energies.Pull_LAMMPS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pulls energy data from LAMMPS</p>
+<p>Pulls energy for all columns in the LAMMPS log file and writes them
+as a file for each one. This intelligently parses the lammps logfile,
+but must be a full logfile with only a single run command, otherwise breaks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<em>int</em>) – Number of windows</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-wham_derivatives.setup_wham">
+<span id="wham-derivatives-setup-wham-module"></span><h2>wham_derivatives.setup_wham module<a class="headerlink" href="#module-wham_derivatives.setup_wham" title="Permalink to this heading">¶</a></h2>
+<p>This is an example code for the calculation of a Potential of Mean Force
+from CP2K or lammps simulations.
+This sets up the various windows and gets them ready to run.
+Once you run this code - you should submit run_windows.sh
+Then you should run Alan Grossfield’s WHAM code.
+That can be downloaded at <a class="reference external" href="http://membrane.urmc.rochester.edu/content/wham">http://membrane.urmc.rochester.edu/content/wham</a>
+Copyright July 2018 Zeke Piskulich, University of Kansas.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><ol class="arabic simple">
+<li><p>Choose # bins and force constants 0.005 for barrier and 0.001 long region is decent</p></li>
+<li><p>python setup_wham.py 1 to generate wham_metadata.info and run wham file.</p></li>
+<li><p>python setup_wham.py 2 to run cp2k wham or python setup_wham.py 3 to run lammps wham</p></li>
+<li><p>sbatch run_windows.sh</p></li>
+<li><p>bash conv.sh (if cp2k)</p></li>
+<li><p>Run alan grossfield’s wham code as needed</p></li>
+<li><p>Conversion note: 1 kj/mol/Ang/Ang = 0.0085 hartree/bohr/bohr</p></li>
+</ol>
+</dd>
+</dl>
+<p>Cheers!</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.setup_wham.generate_forceconsts">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.setup_wham.</span></span><span class="sig-name descname"><span class="pre">generate_forceconsts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.setup_wham.generate_forceconsts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.setup_wham.setup_cp2k">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.setup_wham.</span></span><span class="sig-name descname"><span class="pre">setup_cp2k</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.setup_wham.setup_cp2k" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.setup_wham.setup_lmps">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.setup_wham.</span></span><span class="sig-name descname"><span class="pre">setup_lmps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.setup_wham.setup_lmps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-wham_derivatives.wham_class">
+<span id="wham-derivatives-wham-class-module"></span><h2>wham_derivatives.wham_class module<a class="headerlink" href="#module-wham_derivatives.wham_class" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">wham_derivatives.wham_class.</span></span><span class="sig-name descname"><span class="pre">Wham</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rlow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwindows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0019872041</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">298.15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eweight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is a class for doing WHAM and WHAM-D</p>
+<p>This is a class for doing the Weighted Histogram Analysis Method (WHAM) and its
+derivative through fluctuation theory (WHAM-D)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.kbT">
+<span class="sig-name descname"><span class="pre">kbT</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.kbT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Thermal energy constant in current units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.rlow">
+<span class="sig-name descname"><span class="pre">rlow</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.rlow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Low distance cutoff in current units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.rhi">
+<span class="sig-name descname"><span class="pre">rhi</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.rhi" title="Permalink to this definition">¶</a></dt>
+<dd><p>High distance cutoff in current units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.k">
+<span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.k" title="Permalink to this definition">¶</a></dt>
+<dd><p>Force constant in current units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.nwindows">
+<span class="sig-name descname"><span class="pre">nwindows</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.nwindows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of WHAM Windows</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.nbins">
+<span class="sig-name descname"><span class="pre">nbins</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.nbins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of WHAM histogram bins</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.xc">
+<span class="sig-name descname"><span class="pre">xc</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.xc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Location of bias centers shape(nwindows,)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.U">
+<span class="sig-name descname"><span class="pre">U</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.U" title="Permalink to this definition">¶</a></dt>
+<dd><p>Potential energy of bias shape(nwindows,nbins)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.ni">
+<span class="sig-name descname"><span class="pre">ni</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.ni" title="Permalink to this definition">¶</a></dt>
+<dd><p>Histogram counts shape(nwindows, nbins)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.cnt">
+<span class="sig-name descname"><span class="pre">cnt</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.cnt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Total histogram counts shape(nwindows,)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.hval">
+<span class="sig-name descname"><span class="pre">hval</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.hval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalized histogram shape(nwindows,nbins)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.center">
+<span class="sig-name descname"><span class="pre">center</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Location of centers shape(nbins,)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.P">
+<span class="sig-name descname"><span class="pre">P</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.P" title="Permalink to this definition">¶</a></dt>
+<dd><p>Potential energy estimate shape(nbins,)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.F">
+<span class="sig-name descname"><span class="pre">F</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.F" title="Permalink to this definition">¶</a></dt>
+<dd><p>Free energy estimate shape(nwindows,)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.F_old">
+<span class="sig-name descname"><span class="pre">F_old</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.F_old" title="Permalink to this definition">¶</a></dt>
+<dd><p>Old free energy estimate shape(nwindows,)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.isconverged">
+<span class="sig-name descname"><span class="pre">isconverged</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.isconverged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag for whether converged</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.d_converged">
+<span class="sig-name descname"><span class="pre">d_converged</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.d_converged" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag for whether derivative converged</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.eweight">
+<span class="sig-name descname"><span class="pre">eweight</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.eweight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag for whether to do WHAM-D</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.whamcomplete">
+<span class="sig-name descname"><span class="pre">whamcomplete</span></span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.whamcomplete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag for whether WHAM has completed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Build_Data">
+<span class="sig-name descname"><span class="pre">Build_Data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Build_Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>This reads in data and builds histograms</p>
+<p>This program reads in the collective variable data, and the
+energies (if the derivative WHAM-D calculation is turned on) and then
+it histograms the data, and generates the structures needed to run a WHAM (and WHAM-D)
+calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>OSError</strong> – Something went wrong with the pickle files read in.</p></li>
+<li><p><strong>ValueError</strong> – Wrong input for the bias potential was chosen.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Calc_PMF">
+<span class="sig-name descname"><span class="pre">Calc_PMF</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Calc_PMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the potential of mean force</p>
+<p>This calculates the potential of mean force from the self consistent
+solution to WHAM, which must have converged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – Calculation wasn’t converged before trying to plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Do_WHAM">
+<span class="sig-name descname"><span class="pre">Do_WHAM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Do_WHAM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to do WHAM</p>
+<p>This function does WHAM by repeatedly calling the Wham_Iteration function, which
+works by updating P and F stored within the class. The function stops if the maxiter
+parameter is reached.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>maxiter</strong> (<em>int</em>) – Maximum number of WHAM iterations</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>RuntimeWarning</strong> – WHAM didn’t converge within maxiter steps to specified tolerance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Do_WHAM_D">
+<span class="sig-name descname"><span class="pre">Do_WHAM_D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Do_WHAM_D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to do WHAM-D</p>
+<p>This function calculates the derivative of WHAM by repeatedly calling the Wham_D_Iteration
+function, which works by updating dP and dF stored within the class. The function stops if
+the maxiter parameter is reached. This must be done after Do_WHAM has completed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>string</em>) – Energy key name</p></li>
+<li><p><strong>maxiter</strong> (<em>int</em>) – Maximum number of WHAM-D iterations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>RuntimeError</strong> – WHAM-D didn’t converge within maxiter steps to specified tolerance.</p></li>
+<li><p><strong>AssertionError</strong> – WHAM wasn’t converged prior to calculating the derivative.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Plot_PMF">
+<span class="sig-name descname"><span class="pre">Plot_PMF</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Plot_PMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots PMF using matplotlib</p>
+<p>Does a basic plot of the PMF in matplotlib</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Update_F">
+<span class="sig-name descname"><span class="pre">Update_F</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Update_F" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the WHAM free energy estimate</p>
+<p>This function calculates the WHAM free energy estimate, F as
+part of the self consistent solution.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Update_P">
+<span class="sig-name descname"><span class="pre">Update_P</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Update_P" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to calculate the probability distribution</p>
+<p>This function calculates the probability distribution, given the free energy
+estimate, F, and various other quantities.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Update_dF">
+<span class="sig-name descname"><span class="pre">Update_dF</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Update_dF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the WHAM-D derivative of free energy</p>
+<p>This function calculates the WHAM-D derivative of the free energy,
+dP, as part of a self consistent solution.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Update_dP">
+<span class="sig-name descname"><span class="pre">Update_dP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Update_dP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the WHAM-D derivative of probability distribution</p>
+<p>This function calculates the WHAM-D derivative of the probability distribution,
+dP, as part of a self consistent solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>str</em>) – Energy type for the iteration</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Wham_D_Iteration">
+<span class="sig-name descname"><span class="pre">Wham_D_Iteration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Wham_D_Iteration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does one WHAM-D iteration</p>
+<p>Does a regular WHAM-D iteration, by updating dP, then dF.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="wham_derivatives.wham_class.Wham.Wham_Iteration">
+<span class="sig-name descname"><span class="pre">Wham_Iteration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_class.Wham.Wham_Iteration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does one WHAM iteration</p>
+<p>Does a regular WHAM iteration, by updating P, then F.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-wham_derivatives.wham_main">
+<span id="wham-derivatives-wham-main-module"></span><h2>wham_derivatives.wham_main module<a class="headerlink" href="#module-wham_derivatives.wham_main" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="wham_derivatives.wham_main.Main">
+<span class="sig-prename descclassname"><span class="pre">wham_derivatives.wham_main.</span></span><span class="sig-name descname"><span class="pre">Main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#wham_derivatives.wham_main.Main" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is an example of how these functions can be called to calculate WHAM</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Iargs</strong> (<em>argparse</em>) – Input arguments from argparse</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>OSError</strong> – Metadata file was non-existent or in wrong format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-wham_derivatives">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-wham_derivatives" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">wham_derivatives package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-wham_derivatives.conv_distfiles">wham_derivatives.conv_distfiles module</a><ul>
+<li><a class="reference internal" href="#wham_derivatives.conv_distfiles.Conv_Files"><code class="docutils literal notranslate"><span class="pre">Conv_Files()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-wham_derivatives.conv_metadata">wham_derivatives.conv_metadata module</a><ul>
+<li><a class="reference internal" href="#wham_derivatives.conv_metadata.Conv"><code class="docutils literal notranslate"><span class="pre">Conv()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.conv_metadata.Read_Meta"><code class="docutils literal notranslate"><span class="pre">Read_Meta()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-wham_derivatives.preprocess_wham">wham_derivatives.preprocess_wham module</a><ul>
+<li><a class="reference internal" href="#wham_derivatives.preprocess_wham.Main"><code class="docutils literal notranslate"><span class="pre">Main()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.preprocess_wham.Write_WHAM_Files"><code class="docutils literal notranslate"><span class="pre">Write_WHAM_Files()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-wham_derivatives.pull_energies">wham_derivatives.pull_energies module</a><ul>
+<li><a class="reference internal" href="#wham_derivatives.pull_energies.Pull_CP2K"><code class="docutils literal notranslate"><span class="pre">Pull_CP2K()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.pull_energies.Pull_Energies"><code class="docutils literal notranslate"><span class="pre">Pull_Energies()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.pull_energies.Pull_LAMMPS"><code class="docutils literal notranslate"><span class="pre">Pull_LAMMPS()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-wham_derivatives.setup_wham">wham_derivatives.setup_wham module</a><ul>
+<li><a class="reference internal" href="#wham_derivatives.setup_wham.generate_forceconsts"><code class="docutils literal notranslate"><span class="pre">generate_forceconsts()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.setup_wham.setup_cp2k"><code class="docutils literal notranslate"><span class="pre">setup_cp2k()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.setup_wham.setup_lmps"><code class="docutils literal notranslate"><span class="pre">setup_lmps()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-wham_derivatives.wham_class">wham_derivatives.wham_class module</a><ul>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham"><code class="docutils literal notranslate"><span class="pre">Wham</span></code></a><ul>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.kbT"><code class="docutils literal notranslate"><span class="pre">Wham.kbT</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.rlow"><code class="docutils literal notranslate"><span class="pre">Wham.rlow</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.rhi"><code class="docutils literal notranslate"><span class="pre">Wham.rhi</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.k"><code class="docutils literal notranslate"><span class="pre">Wham.k</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.nwindows"><code class="docutils literal notranslate"><span class="pre">Wham.nwindows</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.nbins"><code class="docutils literal notranslate"><span class="pre">Wham.nbins</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.xc"><code class="docutils literal notranslate"><span class="pre">Wham.xc</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.U"><code class="docutils literal notranslate"><span class="pre">Wham.U</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.ni"><code class="docutils literal notranslate"><span class="pre">Wham.ni</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.cnt"><code class="docutils literal notranslate"><span class="pre">Wham.cnt</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.hval"><code class="docutils literal notranslate"><span class="pre">Wham.hval</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.center"><code class="docutils literal notranslate"><span class="pre">Wham.center</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.P"><code class="docutils literal notranslate"><span class="pre">Wham.P</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.F"><code class="docutils literal notranslate"><span class="pre">Wham.F</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.F_old"><code class="docutils literal notranslate"><span class="pre">Wham.F_old</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.isconverged"><code class="docutils literal notranslate"><span class="pre">Wham.isconverged</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.d_converged"><code class="docutils literal notranslate"><span class="pre">Wham.d_converged</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.eweight"><code class="docutils literal notranslate"><span class="pre">Wham.eweight</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.whamcomplete"><code class="docutils literal notranslate"><span class="pre">Wham.whamcomplete</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Build_Data"><code class="docutils literal notranslate"><span class="pre">Wham.Build_Data()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Calc_PMF"><code class="docutils literal notranslate"><span class="pre">Wham.Calc_PMF()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Do_WHAM"><code class="docutils literal notranslate"><span class="pre">Wham.Do_WHAM()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Do_WHAM_D"><code class="docutils literal notranslate"><span class="pre">Wham.Do_WHAM_D()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Plot_PMF"><code class="docutils literal notranslate"><span class="pre">Wham.Plot_PMF()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Update_F"><code class="docutils literal notranslate"><span class="pre">Wham.Update_F()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Update_P"><code class="docutils literal notranslate"><span class="pre">Wham.Update_P()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Update_dF"><code class="docutils literal notranslate"><span class="pre">Wham.Update_dF()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Update_dP"><code class="docutils literal notranslate"><span class="pre">Wham.Update_dP()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Wham_D_Iteration"><code class="docutils literal notranslate"><span class="pre">Wham.Wham_D_Iteration()</span></code></a></li>
+<li><a class="reference internal" href="#wham_derivatives.wham_class.Wham.Wham_Iteration"><code class="docutils literal notranslate"><span class="pre">Wham.Wham_Iteration()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-wham_derivatives.wham_main">wham_derivatives.wham_main module</a><ul>
+<li><a class="reference internal" href="#wham_derivatives.wham_main.Main"><code class="docutils literal notranslate"><span class="pre">Main()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-wham_derivatives">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="modules.html"
+                          title="previous chapter">wham_derivatives</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/wham_derivatives.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="wham_derivatives"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">wham_derivatives v0.9dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >wham_derivatives</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">wham_derivatives package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Zeke Piskulich.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+  </body>
+</html>
