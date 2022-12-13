@@ -1,31 +1,15 @@
 #!/usr/bin/env python
 
-"""
-This is an example code for the calculation of a Potential of Mean Force 
-from CP2K or lammps simulations.
-This sets up the various windows and gets them ready to run.
-Once you run this code - you should submit run_windows.sh
-Then you should run Alan Grossfield's WHAM code.
-That can be downloaded at http://membrane.urmc.rochester.edu/content/wham
-Copyright July 2018 Zeke Piskulich, University of Kansas.
-
-Usage:
-    1) Choose # bins and force constants 0.005 for barrier and 0.001 long region is decent
-    2) python setup_wham.py 1 to generate wham_metadata.info and run wham file.
-    3) python setup_wham.py 2 to run cp2k wham or python setup_wham.py 3 to run lammps wham
-    4) sbatch run_windows.sh
-    5) bash conv.sh (if cp2k)
-    6) Run alan grossfield's wham code as needed
-    7) Conversion note: 1 kj/mol/Ang/Ang = 0.0085 hartree/bohr/bohr
-
-Cheers!
-
-"""
 import os, shutil, sys
 import numpy as np
 
 
-def generate_forceconsts():
+def Generate_Forceconsts():
+    """Writes force constants out to a file
+
+    This function takes user input, and turns it into a file which includes all the force constants.
+
+    """
     f = open('force.consts','w')
     num_consts = int(input('How many force consts?\n'))
     prev_bins = 0
@@ -42,7 +26,13 @@ def generate_forceconsts():
 
     f.close()
 
-def setup_cp2k():
+def Setup_CP2K():
+    """Takes the force.consts file and setups cp2k simulation
+
+    This writes the file wham_metadata.info, run_windows.sh, the collective.inc file in
+    each windows directory.
+
+    """
     K, ro = np.genfromtxt('force.consts', usecols=(1,2), unpack=True)
     bins = len(K)
     
@@ -92,7 +82,13 @@ def setup_cp2k():
     meta.close()
     sub.close
 
-def setup_lmps():
+def Setup_LAMMPS():
+    """Takes the force.consts file and setups LAMMPS simulation
+
+    This writes the file wham_metadata.info, run_windows.sh, the collective.inc file in
+    each windows directory.
+
+    """
     K, ro = np.genfromtxt('force.consts', usecols=(1,2), unpack=True)
     bins = len(K)
     angpau=0.529177249
@@ -115,7 +111,7 @@ def setup_lmps():
 
     sub.write('cd $SLURM_ARRAY_TASK_ID\n')
     sub.write('mpirun lmp_mpi <in.ip \n')
-    sub.write('pull.py log.production\n')
+    sub.write('pull_energies.py log.production\n')
     sub.write('rm log.production log.lammps *.BAK P*out Temp*out Time*out\n')
     sub.write('cd ../\n')
 
@@ -160,11 +156,11 @@ if __name__ == "__main__":
         sys.exit("type must be specified")
 
     if type == 1:
-        generate_forceconsts()
+        Generate_Forceconsts()
     elif type == 2:
-        setup_cp2k()
+        Setup_CP2K()
     elif type == 3:
-        setup_lmps()
+        Setup_LAMMPS()
     else:
         print("Invalid options chosen - try again")
 
