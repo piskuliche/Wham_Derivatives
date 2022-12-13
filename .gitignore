@@ -1,7 +1,6 @@
 bin/
 wham_derivatives/__pycache__/
 wham_derivatives/__pycache__/dump_split.cpython-39.pyc
-.nojekyll
 build/
 settings.json
 *.egg
