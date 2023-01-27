@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 import numpy as np
 import argparse
+from wham_derivatives import wham_class
 
-def Main(Iargs):
+def Main(rlow=1.5, rhigh=8.0, nbins=200, deriv=0, enerfile="flucts.inp", metafile="wham_metadata.info", maxiter=1000000):
     """This is an example of how these functions can be called to calculate WHAM
 
     Args:
-        Iargs (argparse): Input arguments from argparse
+        rlow (float): Lower cutoff for the WHAM calculation [default=1.5]
+        rhigh (float): Upper cutoff for the WHAM calculation [default=8.0]
+        nbins (int): Number of windows for the WHAM calculation [defaul=200]
+        deriv (int): [0] Don't calculate derivative [1] Calculate derivative [default=0]
+        enerfile (str): Name of file with information about columns and energies [default='flucts.inp']
+        metafile (str): Name of file with information about umbrella potential locations [default='wham_metadata.info']
 
     Raises: 
         OSError: Metadata file was non-existent or in wrong format.
@@ -15,15 +21,15 @@ def Main(Iargs):
     nwindows=0
     xc, k=[], []
     try:
-        xc,k=np.genfromtxt(Iargs.metafile,usecols=(1,2),unpack=True)
+        xc,k=np.genfromtxt(metafile,usecols=(1,2),unpack=True)
         nwindows = len(xc)
     except:
         exit("Error: Trouble grabbing windows from metafile")
     
-    whammed = Wham(xc, k[0], Iargs.rlow, Iargs.rhigh, nwindows, Iargs.nbins, eweight=True)
+    whammed = wham_class.Wham(xc, k[0], rlow, rhigh, nwindows, nbins, eweight=True)
     whammed.Do_WHAM()
     whammed.Plot_PMF()
-    whammed.Do_WHAM_D("TotEng", maxiter=100000)
+    whammed.Do_WHAM_D("TotEng", maxiter=maxiter)
 
 
 if __name__ == "__main__":
@@ -46,4 +52,4 @@ if __name__ == "__main__":
                          help='File name with directory, loc, and k info.')
     Iargs = parser.parse_args()
 
-    Main(Iargs)
+    Main(rlow=Iargs.rlow, rhigh=Iargs.rhigh, nbins=Iargs.nbins, deriv=Iargs.deriv, enerfile=Iargs.enerfile, metafile=Iargs.metafile)
