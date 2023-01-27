@@ -16,6 +16,7 @@ def Main(rlow=1.5, rhigh=8.0, nbins=200, deriv=0, enerfile="flucts.inp", metafil
 
     Raises: 
         OSError: Metadata file was non-existent or in wrong format.
+        ValueError: deriv parameter must be 1 or 0.
 
     """
     nwindows=0
@@ -26,10 +27,17 @@ def Main(rlow=1.5, rhigh=8.0, nbins=200, deriv=0, enerfile="flucts.inp", metafil
     except:
         exit("Error: Trouble grabbing windows from metafile")
     
-    whammed = wham_class.Wham(xc, k[0], rlow, rhigh, nwindows, nbins, eweight=True)
-    whammed.Do_WHAM()
-    whammed.Plot_PMF()
-    whammed.Do_WHAM_D("TotEng", maxiter=maxiter)
+    if deriv == 1:
+        whammed = wham_class.Wham(xc, k[0], rlow, rhigh, nwindows, nbins, eweight=True)
+        whammed.Do_WHAM()
+        whammed.Plot_PMF()
+        whammed.Do_WHAM_D("TotEng", maxiter=maxiter)
+    elif deriv == 0:
+        whammed = wham_class.Wham(xc, k[0], rlow, rhigh, nwindows, nbins, eweight=False)
+        whammed.Do_WHAM()
+        whammed.Plot_PMF()
+    else:
+        raise ValueError("Error: Incorrect value of deriv option provided. Must be 0 or 1.")
 
 
 if __name__ == "__main__":

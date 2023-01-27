@@ -82,6 +82,7 @@ class Wham:
         self.isconverged = False
         self.d_converged = False
         self.eweight = eweight
+        print(eweight,self.eweight)
         self.whamcomplete = False
 
         # Do initial setup
