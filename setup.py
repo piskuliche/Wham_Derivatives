@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 setup(name="wham_derivatives",
       version="0.1",
-      description="A code that calculates wham derivatives",
+      description="A code that calculates wham and its derivatives",
       author="Zeke Piskulich",
       author_email='piskulichz@gmail.com',
       platforms=["any"],  # or more specific, e.g. "win32", "cygwin", "osx"
