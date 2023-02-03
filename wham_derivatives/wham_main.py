@@ -3,7 +3,7 @@ import numpy as np
 import argparse
 from wham_derivatives import wham_class
 
-def Main(rlow=1.5, rhigh=8.0, nbins=200, deriv=0, enerfile="flucts.inp", metafile="wham_metadata.info", maxiter=1000000):
+def Main(rlow=1.5, rhigh=8.0, nbins=200, deriv=0, enerfile="flucts.inp", metafile="wham_metadata.info", maxiter=1000000, iter_output=True):
     """This is an example of how these functions can be called to calculate WHAM
 
     Args:
@@ -13,6 +13,7 @@ def Main(rlow=1.5, rhigh=8.0, nbins=200, deriv=0, enerfile="flucts.inp", metafil
         deriv (int): [0] Don't calculate derivative [1] Calculate derivative [default=0]
         enerfile (str): Name of file with information about columns and energies [default='flucts.inp']
         metafile (str): Name of file with information about umbrella potential locations [default='wham_metadata.info']
+        iter_output (bool): Whether to print iteration information.
 
     Raises: 
         OSError: Metadata file was non-existent or in wrong format.
@@ -33,7 +34,7 @@ def Main(rlow=1.5, rhigh=8.0, nbins=200, deriv=0, enerfile="flucts.inp", metafil
         whammed.Plot_PMF()
         whammed.Do_WHAM_D("TotEng", maxiter=maxiter)
     elif deriv == 0:
-        whammed = wham_class.Wham(xc, k[0], rlow, rhigh, nwindows, nbins, eweight=False)
+        whammed = wham_class.Wham(xc, k[0], rlow, rhigh, nwindows, nbins, eweight=False, iter_output=False)
         whammed.Do_WHAM()
         whammed.Plot_PMF()
     else:

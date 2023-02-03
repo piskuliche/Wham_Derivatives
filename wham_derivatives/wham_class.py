@@ -2,6 +2,7 @@
 import pickle, warnings
 import numpy as np
 from numpy import inf, nan
+import matplotlib.pyplot as plt
 
 class Wham:
     """This is a class for doing WHAM and WHAM-D
@@ -29,13 +30,14 @@ class Wham:
         d_converged (bool): Flag for whether derivative converged
         eweight (bool): Flag for whether to do WHAM-D 
         whamcomplete (bool): Flag for whether WHAM has completed.
+        iter_output (bool): Flag for printing iteration output to the screen
 
 
 
     """
 
     def __init__(self, xc, k, rlow, rhi, nwindows, nbins, tolerance = 1e-4,
-                 kb=0.0019872041, T=298.15, eweight=False, bias=1):
+                 kb=0.0019872041, T=298.15, eweight=False, bias=1, iter_output=True):
         """Initializes the class and builds attributes
 
         This class takes built in data and builds the class attributes.
@@ -51,6 +53,7 @@ class Wham:
             kb (float): Boltzmann's constant in current, consistent, units [default=0.0019872041]
             T (float): Temperature in current, consistent, units [default=298.15]
             eweight (bool): Flag for whether to use fluctuation theory [default=False]
+            iter_output (bool): Falg for whether to print iteration output [default=True]
         
         """
         self.kbT = kb*T
@@ -82,8 +85,8 @@ class Wham:
         self.isconverged = False
         self.d_converged = False
         self.eweight = eweight
-        print(eweight,self.eweight)
         self.whamcomplete = False
+        self.iter_output = iter_output
 
         # Do initial setup
         self.Build_Data()
@@ -212,6 +215,12 @@ class Wham:
         while (self.d_converged == False):
             self.Wham_D_Iteration(key)
             iteration += 1
+
+            if iteration%1000 == 0:
+                fig = plt.figure()
+                plt.plot(self.dP)
+                plt.savefig("plots/dP_%d.png" % iteration)
+                plt.close(fig)
             if iteration > maxiter:
                 warnings.warn("Warning: Too many iterations in derivative", RuntimeWarning)
                 break
@@ -228,7 +237,7 @@ class Wham:
         # Calculate the error
         Ferr = np.sum(np.abs(np.subtract(self.F, self.F_old)))
         self.F_old = self.F
-        print("Error: %s" % Ferr)
+        if self.iter_output: print("\r Error: %s" % Ferr)
         
         # Check if converged
         if Ferr < self.tolerance:
@@ -245,6 +254,7 @@ class Wham:
         # Update the derivatives
         self.Update_dP(key)
         self.Update_dF()
+
 
         # Calculate the Error
         dFerr = np.sum(np.abs(np.subtract(self.dF,self.dF_old)))
@@ -337,7 +347,7 @@ class Wham:
         term2_num = self.kbT*np.sum(inside_sum, axis=1)
         term2_den = np.sum(np.multiply(exponent, self.P), axis=1)
 
-        self.dF = term1 - term2_num/term2_den
+        self.dF = (term1 - term2_num/term2_den)
 
         print(np.sum(term1),np.sum(term2_num/term2_den))
         self.dF[self.dF==inf] = 0.0
