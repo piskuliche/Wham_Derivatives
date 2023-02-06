@@ -352,6 +352,136 @@ class Wham:
         print(np.sum(term1),np.sum(term2_num/term2_den))
         self.dF[self.dF==inf] = 0.0
 
+    def Do_Alt_WHAM_D(self, key, maxiter=10000):
+        """Function to do WHAM-D
+
+        This function calculates the derivative of WHAM by repeatedly calling the Wham_D_Iteration 
+        function, which works by updating dP and dF stored within the class. The function stops if
+        the maxiter parameter is reached. This must be done after Do_WHAM has completed.
+
+        Args:
+            key (string): Energy key name
+            maxiter (int): Maximum number of WHAM-D iterations
+
+        Raises:
+            RuntimeError: WHAM-D didn't converge within maxiter steps to specified tolerance.
+            AssertionError: WHAM wasn't converged prior to calculating the derivative.
+    
+        """
+        
+        # Raises the AssertionError if WHAM wasn't converged first.
+        self._Test_Convergant()
+
+        iteration = 0
+        self.d_converged = False
+        while (self.d_converged == False):
+            self.Alt_Wham_D_Iteration(key)
+            iteration += 1
+
+            if iteration%1 == 0:
+                fig = plt.figure()
+                plt.plot(self.center,self.dP,c='red',label='dP')
+                plt.plot(self.center,self.P,c='black',label='P',linestyle='dashed')
+                plt.savefig("plots/dP_%d.png" % iteration)
+                plt.close(fig)
+            if iteration > maxiter:
+                warnings.warn("Warning: Too many iterations in derivative", RuntimeWarning)
+                break
+
+    def Alt_Wham_D_Iteration(self, key):
+        """Does one WHAM-D iteration
+
+        Does a regular WHAM-D iteration, by updating dP, then dF.
+
+        """
+
+        # Update the derivatives
+        self.Update_Alt_dP(key)
+        self.Update_Alt_dF()
+
+
+        # Calculate the Error
+        dFerr = np.sum(np.abs(np.subtract(self.dF,self.dF_old)))
+        self.dF_old = self.dF
+
+        print("Error: %s " % dFerr)
+        print("dF: %s" % np.sum(self.dF))
+
+        # Test Convergence
+        self.d_converged = False
+        if dFerr < self.tolerance*1e-4:
+            self.d_converged = True
+
+    def Update_Alt_dP(self, key):
+        """Calculates the WHAM-D derivative of probability distribution
+
+        This function calculates the WHAM-D derivative of the probability distribution,
+        dP, as part of a self consistent solution.
+
+        Args:
+            key (str): Energy type for the iteration
+
+        """
+        Ut = self.U.T
+        Fm = self.F - np.min(self.F)
+        dHT = self.dhval[key].T
+
+        # Build Denominator
+        inside_sum = np.multiply(self.cnt, np.exp(-np.divide(np.subtract(Ut,Fm),self.kbT)))
+        denominator = np.sum(inside_sum,axis=1)
+
+        # Build Term 1
+        #term1 = np.sum(np.multiply(self.cnt,-dHT),axis=1)
+        exponent = np.exp(-np.divide(np.subtract(Ut,Fm),self.kbT))
+        pre_exp = np.subtract(Ut,Fm)
+        pdiff = np.subtract(dHT,np.multiply(pre_exp,exponent))
+        inside_t1_sum = np.multiply(self.cnt,pdiff)
+        term1 = np.sum(inside_t1_sum,axis=1)/denominator
+
+        # Build Term 2
+        #exponent = np.exp(-np.divide(np.subtract(Ut,Fm),self.kbT))
+        #weight_exp = np.multiply(self.cnt,exponent)
+        #prefact_exp = np.multiply(weight_exp,(self.dF/self.kbT+Fm-Ut))
+        #term2 = self.P*np.sum(prefact_exp,axis=1)
+        term2=self.P*np.sum(self.cnt*exponent*self.dF,axis=1)/denominator
+        print(np.sum(term1),np.sum(term2))
+        self.term1 = term1
+        self.term2 = term2
+
+        self.dP = -(term1 - term2)
+        
+    def Update_Alt_dF(self):
+        """Calculates the WHAM-D derivative of free energy
+
+        This function calculates the WHAM-D derivative of the free energy,
+        dP, as part of a self consistent solution.
+
+        """
+
+        exponent = np.exp(-self.U/self.kbT)
+        # Build Term 1
+        #term1 = -self.kbT*self.F
+        
+        # Build Term 2
+        #inside_sum = np.multiply(np.subtract(self.dP, np.multiply(self.U, self.P)), exponent)
+
+        #term2_num = self.kbT*np.sum(inside_sum, axis=1)
+        #term2_den = np.sum(np.multiply(exponent, self.P), axis=1)
+
+        #self.dF = (term1 - term2_num/term2_den)
+
+        #print(np.sum(term1),np.sum(term2_num/term2_den))
+        #self.dF[self.dF==inf] = 0.0
+
+        term1 = -self.kbT*self.F
+        inside_brace=np.subtract(np.multiply(self.P,self.U),self.dP)
+        term2_num = self.kbT*np.sum(np.multiply(exponent,inside_brace),axis=1)
+        term2_den = np.sum(exponent*self.P,axis=1)
+
+        self.dF = term1 + term2_num/term2_den
+        self.dF[self.dF==inf] = 0.0
+
+
     
     def _Test_Convergant(self):
         """Simple functon that tests convergence

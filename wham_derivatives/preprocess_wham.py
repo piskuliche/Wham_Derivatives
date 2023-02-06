@@ -2,22 +2,7 @@
 import argparse, os, pickle
 import numpy as np
 
-def Main(Iargs):
-    """Does the pre-processing.
-
-    This does basic preprocessing of files. All unit conversions, skippage,
-    etc needs to be done ahead of time. 
-
-    Args:
-        Iargs (argparse): Input arguments
-
-    """
-
-    Write_WHAM_Files(Iargs)
-
-    return
-
-def Write_WHAM_Files(Iargs):
+def Write_WHAM_Files(metafile="wham_metadata.info", subfile="final.colvars",subcol=1,deriv=0, enerfile="flucts.inp" ):
     """Writes files in a very simple, WHAM-readable format. 
 
     This takes files, and writes them in a very WHAM-readable format, 
@@ -26,7 +11,11 @@ def Write_WHAM_Files(Iargs):
     Iargs.deriv sets whether this also reads energies (and writes those to pickle files).
 
     Args:
-        Iargs (argparse): Input arguments
+        metafile (str): Name of metadata file, [default=wham_metadata.info]
+        subfile (str): Name of subdirectory file, [default=final.colvars]
+        subcol (int): Column of subfile to read, [default=1]
+        deriv (int): Whether to read energies, [default=0]
+        enerfile (str): Name of energy file, [default=fluct.inp]
     
     Raises:
         OSError: Input files provided were incorrect, or in the wrong format.
@@ -37,13 +26,13 @@ def Write_WHAM_Files(Iargs):
     
     nwindows=0
     try:
-        k=np.genfromtxt(Iargs.metafile,usecols=1,unpack=True)
+        k=np.genfromtxt(metafile,usecols=1,unpack=True)
         nwindows = len(k)
     except:
         raise OSError("Error: Trouble grabbing windows from metafile")
     
     etypes = []
-    if Iargs.deriv == 1:
+    if deriv == 1:
         try:
             etypes=np.genfromtxt(Iargs.enerfile, usecols=0, dtype=str)
             print("Grabbing energies")
@@ -57,12 +46,12 @@ def Write_WHAM_Files(Iargs):
         if window%10 == 0: print(window)
         data, en = [], {}
         
-        data = np.genfromtxt(str(window)+"/"+Iargs.subfile,
-                             usecols=Iargs.subcol,unpack=True)
+        data = np.genfromtxt(str(window)+"/"+subfile,
+                             usecols=subcol,unpack=True)
                              
         pickle.dump(data,open('wham_pckl/window_%d.pckl'%window,'wb'))
 
-        if Iargs.deriv == 1:
+        if deriv == 1:
             for key in etypes:
                 en[key]=np.genfromtxt(str(window)+"/"+key+"_init.out",usecols=0)
             pickle.dump(en,open("wham_pckl/ener_%d.pckl"%window,'wb'))
@@ -83,4 +72,4 @@ if __name__ == "__main__":
                          help='File name with directory, loc, and k info.')
     Iargs = parser.parse_args()
 
-    Main(Iargs)
+    Write_WHAM_Files(metafile=Iargs.metafile, subfile=Iargs.subfile, subcol=Iargs.subcol, deriv=Iargs.deriv, enerfile=Iargs.enerfile)
