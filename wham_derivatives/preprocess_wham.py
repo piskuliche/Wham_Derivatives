@@ -67,7 +67,7 @@ if __name__ == "__main__":
     parser.add_argument('-deriv',default=0, type=int,
                          help="[0] Turn off derivative calculation (default) [1] Turn on derivative calculation")
     parser.add_argument('-enerfile', default="flucts.inp", type=str,
-                         help="File name with energy information, default flucts.inp")
+                         help="File name with energy information, default flucts.inp") 
     parser.add_argument('-metafile', default='wham_metadata.info', type=str,
                          help='File name with directory, loc, and k info.')
     Iargs = parser.parse_args()
