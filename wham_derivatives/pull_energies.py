@@ -10,7 +10,7 @@ def Pull_LAMMPS(n, logfile='log.production'):
     but must be a full logfile with only a single run command, otherwise breaks
 
     Args:
-        n (int): Number of windows
+        n (int): ID of WHAM window
 
     """
     data={}
