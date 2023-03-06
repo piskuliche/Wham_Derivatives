@@ -118,7 +118,8 @@ def Setup_LAMMPS():
     for i in range(0,bins):
         if not os.path.isdir(str(i)):
             os.mkdir(str(i))
-        f = open(str(i)+'/lif.colvar','w')
+        f = open(str(i)+'/lif.bias','w')
+        """
         with open("lif.colvar",'r') as g:
             lines = g.readlines()
             for line in lines:
@@ -129,6 +130,9 @@ def Setup_LAMMPS():
                     f.write("  forceConstant %s\n" % (K[i]*conv*2.0))
                 else:
                     f.write("%s" % line)
+        """
+        f.write("fix cv all restrain bond 1186 1187 %s %s %s %s\n" % (K[i]*conv, K[i]*conv, ro[i], ro[i]))
+        f.write("fix_modify cv energy yes\n")
         f.close()
         shutil.copyfile('in.ip',str(i)+'/in.ip')
         

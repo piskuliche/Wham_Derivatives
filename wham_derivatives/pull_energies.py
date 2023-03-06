@@ -2,7 +2,7 @@
 import numpy as np
 import sys
 
-def Pull_LAMMPS(Iargs, n):
+def Pull_LAMMPS(n, logfile='log.production'):
     """Pulls energy data from LAMMPS
 
     Pulls energy for all columns in the LAMMPS log file and writes them
@@ -14,7 +14,7 @@ def Pull_LAMMPS(Iargs, n):
 
     """
     data={}
-    with open("%d/%s"%(n, Iargs.logfile), 'r') as f:
+    with open("%s/%s"%(n, logfile), 'r') as f:
         lines=f.readlines()
         flag=0
         keys=[]
@@ -39,12 +39,12 @@ def Pull_LAMMPS(Iargs, n):
 
     for key in data:
         data[key].pop()
-        np.savetxt("%d/%s_init.out"%(n, key), np.c_[data[key]])
+        np.savetxt("%s/%s_init.out"%(n, key), np.c_[data[key]])
         if key == "Volume":
             L = np.array(data[key])**(1./3.)
-            np.savetxt("%d/L.dat"%(n), np.c_[L])
+            np.savetxt("%s/L.dat"%(n), np.c_[L])
     
-def Pull_CP2K(Iargs, n):
+def Pull_CP2K(n, logfile='log.production', enerfile='flucts.inp', metafile='wham_metadata.info'):
     """File for pulling energies from CP2K
 
     CP2K Energies are pulled using numpy. The data is pulled using numpy,
@@ -61,22 +61,22 @@ def Pull_CP2K(Iargs, n):
     """
     hartree_to_kcal = 627.509
     try:
-        cols, conv = np.genfromtxt(Iargs.enerfile, usecols=(1, 2), unpack=True, dtype=None)
-        keys = np.genfromtxt(Iargs.enerfile, usecols=0, unpack=True, dtype=str)
+        cols, conv = np.genfromtxt(enerfile, usecols=(1, 2), unpack=True, dtype=None)
+        keys = np.genfromtxt(enerfile, usecols=0, unpack=True, dtype=str)
     except:
-        raise OSError("Error: Trouble reading %s"%Iargs.enerfile)
+        raise OSError("Error: Trouble reading %s"%enerfile)
 
 
-    data=np.genfromtxt("%d/%s"%(n, Iargs.logfile), unpack=True)
+    data=np.genfromtxt("%s/%s"%(n, logfile), unpack=True)
 
     # Writes energies out. 
     for i, key in enumerate(keys):
         energy = data[cols[i]]
         if conv[i] == 1:
             energy = energy * hartree_to_kcal
-        np.savetxt("%d/%s_init.out"%(n, key), np.c_[energy])
+        np.savetxt("%s/%s_init.out"%(n, key), np.c_[energy])
 
-def Pull_Energies(Iargs):
+def Pull_Energies(program="LAMMPS", logfile="log.production", enerfile="flucts.inp", metafile='wham_metadata.info'):
     """Function that calls right routine to pull energy data
 
     This uses input arguments to pull the right data and files. Currently has support for either
@@ -92,7 +92,7 @@ def Pull_Energies(Iargs):
     """
 
     try:
-        k=np.genfromtxt(Iargs.metafile,usecols=1,unpack=True)
+        k=np.genfromtxt(metafile,usecols=1,unpack=True)
         nwindows = len(k)
     except:
         raise OSError("Error: Trouble grabbing windows from metafile")
@@ -101,10 +101,10 @@ def Pull_Energies(Iargs):
 
     if Iargs.program == "LAMMPS":
         for n in range(nwindows):
-            Pull_LAMMPS(Iargs, n)
+            Pull_LAMMPS(n,logfile=logfile, enerfile=enerfile, metafile=metafile)
     elif Iargs.program == "CP2K":
         for n in range(nwindows):
-            Pull_CP2K(Iargs, n)
+            Pull_CP2K(n,logfile=logfile, enerfile=enerfile, metafile=metafile)
     else:
         raise ValueError("Error: Improper program selection")
 
@@ -125,4 +125,4 @@ if __name__ == "__main__":
                          help='File name with directory, loc, and k info.')
     Iargs = parser.parse_args()
 
-    Pull_Energies(Iargs)
+    Pull_Energies(program=Iargs.program, logfile=Iargs.logfile, enerfile=Iargs.enerfile, metafile=Iargs.metafile)

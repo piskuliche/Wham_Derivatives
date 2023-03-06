@@ -424,7 +424,7 @@ class Wham:
         """
         Ut = self.U.T
         Fm = self.F - np.min(self.F)
-        dHT = self.dhval[key].T
+        dHT = -self.dhval[key].T
 
         # Build Denominator
         inside_sum = np.multiply(self.cnt, np.exp(-np.divide(np.subtract(Ut,Fm),self.kbT)))
@@ -448,7 +448,7 @@ class Wham:
         self.term1 = term1
         self.term2 = term2
 
-        self.dP = -(term1 - term2)
+        self.dP = -(term1 + term2)
         
     def Update_Alt_dF(self):
         """Calculates the WHAM-D derivative of free energy
