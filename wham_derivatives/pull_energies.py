@@ -21,7 +21,6 @@ def Pull_LAMMPS(n, logfile='log.production'):
         for line in lines:
             if "Loop" in line:
                 flag=0
-                print("stop")
             if flag == 1 and "colvars" not in line:
                 for key in keys:
                     data[key].append(float(line.strip().split()[loc[key]]))
@@ -35,10 +34,8 @@ def Pull_LAMMPS(n, logfile='log.production'):
                     data[key]=[]
                     loc[key]=count
                     count+=1
-                print("start")
 
     for key in data:
-        data[key].pop()
         np.savetxt("%s/%s_init.out"%(n, key), np.c_[data[key]])
         if key == "Volume":
             L = np.array(data[key])**(1./3.)
