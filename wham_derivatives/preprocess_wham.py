@@ -34,7 +34,7 @@ def Write_WHAM_Files(metafile="wham_metadata.info", subfile="final.colvars",subc
     etypes = []
     if deriv == 1:
         try:
-            etypes=np.genfromtxt(Iargs.enerfile, usecols=0, dtype=str)
+            etypes=np.genfromtxt(enerfile, usecols=0, dtype=str)
             print("Grabbing energies")
             print("Selected energy types:",*etypes)
         except:
