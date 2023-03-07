@@ -467,7 +467,7 @@ class Wham:
         term2_num = self.kbT*np.sum(np.multiply(exponent,inside_brace),axis=1)
         term2_den = np.sum(exponent*self.P,axis=1)
 
-        self.dF = term1 - term2_num/term2_den
+        self.dF = term1 + term2_num/term2_den
         self.dF[self.dF==inf] = 0.0
 
 
