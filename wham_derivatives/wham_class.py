@@ -378,12 +378,6 @@ class Wham:
             self.Alt_Wham_D_Iteration(key)
             iteration += 1
 
-            if iteration%1 == 0:
-                fig = plt.figure()
-                plt.plot(self.center,self.dP,c='red',label='dP')
-                plt.plot(self.center,self.P,c='black',label='P',linestyle='dashed')
-                plt.savefig("plots/dP_%d.png" % iteration)
-                plt.close(fig)
             if iteration > maxiter:
                 warnings.warn("Warning: Too many iterations in derivative", RuntimeWarning)
                 break
