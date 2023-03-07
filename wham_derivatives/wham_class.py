@@ -216,11 +216,6 @@ class Wham:
             self.Wham_D_Iteration(key)
             iteration += 1
 
-            if iteration%1000 == 0:
-                fig = plt.figure()
-                plt.plot(self.dP)
-                plt.savefig("plots/dP_%d.png" % iteration)
-                plt.close(fig)
             if iteration > maxiter:
                 warnings.warn("Warning: Too many iterations in derivative", RuntimeWarning)
                 break
