@@ -79,6 +79,8 @@ def Write_Single_WHAM_File(window, metafile="wham_metadata.info", subfile="final
         OSError: Trouble grabbing energies.
 
     """
+
+    window = int(window)
     if not os.path.exists("wham_pckl"):
         os.makedirs('wham_pckl')
     
