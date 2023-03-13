@@ -131,10 +131,8 @@ def Setup_LAMMPS():
                 else:
                     f.write("%s" % line)
         """
-        #f.write("fix cv all restrain bond 1186 1187 %s %s %s %s\n" % (K[i]*conv, K[i]*conv, ro[i], ro[i]))
-        #f.write("fix_modify cv energy yes\n")
-        f.write("bond_coeff 2 harmonic %s %s\n" % (K[i]*conv, ro[i]))
-        f.write("bond_coeff 3 special 1.0 1.0\n")
+        f.write("fix cv all restrain bond 1186 1187 %s %s %s %s\n" % (K[i]*conv, K[i]*conv, ro[i], ro[i]))
+        f.write("fix_modify cv energy yes\n")
         f.close()
         shutil.copyfile('in.ip',str(i)+'/in.ip')
         shutil.copyfile('lmps.include.coeffs',str(i)+'/lmps.include.coeffs')
